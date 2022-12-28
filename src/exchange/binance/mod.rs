@@ -3,6 +3,7 @@
 use std::convert::TryFrom;
 
 use async_trait::async_trait;
+use log::log;
 
 use client::BaseClient;
 pub use client::stream::BinanceWebsocket;
@@ -78,7 +79,7 @@ impl Exchange for Binance {
             },
         };
 
-        binance.refresh_market_info().await?;
+        // binance.refresh_market_info().await?;
         Ok(binance)
     }
 
@@ -89,6 +90,13 @@ impl Exchange for Binance {
 
 #[async_trait]
 impl ExchangeInfoRetrieval for Binance {
+    /// get_pair -
+    async fn get_pair(&self, market_pair: &MarketPair) -> Result<MarketPairHandle> {
+        let name = BinanceMarketPair::from(market_pair.clone()).0;
+        log::debug!("Binance Market pair - {:?}", name.clone());
+        self.exchange_info.get_pair(&name)
+    }
+
     async fn retrieve_pairs(&self) -> Result<Vec<MarketPairInfo>> {
         self.client.get_exchange_info().await.map(|v| {
             v.symbols
@@ -138,11 +146,6 @@ impl ExchangeInfoRetrieval for Binance {
         self.exchange_info
             .refresh(self as &dyn ExchangeInfoRetrieval)
             .await
-    }
-
-    async fn get_pair(&self, market_pair: &MarketPair) -> Result<MarketPairHandle> {
-        let name = BinanceMarketPair::from(market_pair.clone()).0;
-        self.exchange_info.get_pair(&name)
     }
 }
 
@@ -475,7 +478,7 @@ impl TryFrom<&TradeHistoryRequest> for model::TradeHistoryReq {
 
 impl From<&GetHistoricRatesRequest> for model::KlineParams {
     fn from(req: &GetHistoricRatesRequest) -> Self {
-        let interval: &str = req.interval.into();
+        let interval: &str =  String::from(req.interval).as_str();
         let symbol = BinanceMarketPair::from(req.market_pair.clone()).0;
         Self {
             interval: String::from(interval),
