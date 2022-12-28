@@ -478,7 +478,7 @@ impl TryFrom<&TradeHistoryRequest> for model::TradeHistoryReq {
 
 impl From<&GetHistoricRatesRequest> for model::KlineParams {
     fn from(req: &GetHistoricRatesRequest) -> Self {
-        let interval: &str =  String::from(req.interval).as_str();
+        let interval: &str = req.interval.into();
         let symbol = BinanceMarketPair::from(req.market_pair.clone()).0;
         Self {
             interval: String::from(interval),

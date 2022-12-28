@@ -7,6 +7,14 @@ description = "less is the crate provide binding for crypto network"
 license = "MIT"
 repository = "https://github.com/shueki-ai/les"
 keywords = ["exchange", "openlimits", "api", "cryptocurrency"]
+exclude = [
+    "tests/*",
+    ".github/*"
+]
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
 
 
 [features]
