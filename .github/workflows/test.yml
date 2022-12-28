@@ -1,0 +1,61 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macOS-latest, ubuntu-latest]
+    environment: Test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache Cargo registry
+      uses: actions/cache@v1
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-stable-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-stable-cargo-registry-
+    - name: Cache Cargo index
+      uses: actions/cache@v1
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-stable-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-stable-cargo-index-
+    - name: Cache Cargo build
+      uses: actions/cache@v1
+      with:
+        path: target/debug
+        key: ${{ runner.os }}-stable-build-target-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-stable-build-target-
+    - name: Build
+      run: cargo build --release
+    - name: Run tests
+      env:
+        BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
+        BINANCE_API_SECRET: ${{ secrets.BINANCE_API_SECRET }}
+      run:  cargo test --release -- --test-threads=1
+
+  clippy_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            components: clippy
+            override: true
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
