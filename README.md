@@ -68,7 +68,7 @@ Please make sure to follow the coding style and conventions used in the rest of 
 
 ## **License**
 
-This library is released under the MIT License. See the [LICENSE](https://chat.openai.com/chat/LICENSE) file for details.
+This library is released under the MIT License. See the [LICENSE](https://github.com/crabby-ai/les/blob/main/LICENSE) file for details.
 
 ## **Acknowledgements**
 
