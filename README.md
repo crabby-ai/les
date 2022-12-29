@@ -9,13 +9,18 @@ To install the library, add the following to your **Cargo.toml** file:
 
 Copy code
 
-`[dependencies] les = "0.1"`
+```toml
+[dependencies]
+les = "0.1
+```
 
 You can then use the library in your Rust code by adding the following to your **main.rs** or **lib.rs** file:
 
 Copy code
 
-`extern crate les;`
+```rust
+extern crate les;
+```
 
 ## **Supported Exchanges**
 
