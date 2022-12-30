@@ -42,7 +42,15 @@ To use the library, you will need to create an instance of the **Exchange** stru
 Copy code
 
 ```rust
-use les::Exchange; let exchange = Exchange::new("binance", "api_key", "secret_key");
+let client = Binance::new(BinanceParameters {
+        credentials: Some(BinanceCredentials {
+            api_key: env::var("BINANCE_API_KEY").expect("Couldn't get environment variable"),
+            api_secret: env::var("BINANCE_API_SECRET").expect("Couldn't get environment variable"),
+        }),
+        ..Default::default()
+    })
+    .await
+    .expect("Failed to create Client")
 ```
 
 You can then use the **exchange** object to call various methods to access the exchange's API. For example, to get the current balance of your account:
@@ -50,7 +58,18 @@ You can then use the **exchange** object to call various methods to access the e
 Copy code
 
 ```rust
-let balance = exchange.get_balance().unwrap();
+let params = TradeHistoryReq {
+                    paginator: None,
+                    symbol: String::from("BNBBTC"),
+                };
+let binance_cli = client.inner_client().expect("Couldn't get inner time.");
+
+let args = KlineParams{
+            symbol: "BNBBTC".to_string(),
+            interval: "1m".to_string(),
+            paginator: None,
+        };
+let response = binance_cli.get_klines(&args).await.expect("Couldn't trade history.");
 ```
 
 See the documentation for a full list of available methods and their usage.
