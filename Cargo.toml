@@ -1,6 +1,6 @@
 [package]
 name = "les"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 edition = "2021"
 authors = ["Vasanthkumar Kalaiselvan <itsparser@gmail.com>"]
 description = "less is the crate provide binding for crypto network"
