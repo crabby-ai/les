@@ -8,11 +8,11 @@ use super::ExchangeStream;
 use super::Subscriptions;
 
 #[derive(Constructor)]
-pub struct OpenLimitStream<E: ExchangeStream> {
+pub struct LesStream<E: ExchangeStream> {
     pub websocket: E,
 }
 
-impl<E: ExchangeStream> OpenLimitStream<E> {
+impl<E: ExchangeStream> LesStream<E> {
     pub async fn instantiate(params: E::InitParams) -> Result<Self> {
         let websocket = E::new(params).await?;
         Ok(Self { websocket })

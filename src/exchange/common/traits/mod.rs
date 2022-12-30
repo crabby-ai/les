@@ -1,4 +1,4 @@
-//! This module cointains the traits that are used in the openlimits-exchange module.
+//! This module cointains the traits that are used in the exchange module.
 
 mod account;
 mod market_data;

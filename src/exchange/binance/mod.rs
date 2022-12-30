@@ -24,7 +24,7 @@ use super::{
     model::{
         AskBid, Balance, CancelAllOrdersRequest, CancelOrderRequest, Candle,
         GetHistoricRatesRequest, GetHistoricTradesRequest, GetOrderHistoryRequest, GetOrderRequest,
-        GetPriceTickerRequest, Liquidity, OpenLimitOrderRequest, OpenMarketOrderRequest,
+        GetPriceTickerRequest, Liquidity, OrderRequest, OpenMarketOrderRequest,
         Order, OrderBookRequest, OrderBookResponse, OrderCanceled, OrderStatus, OrderType,
         Paginator, Side, Ticker, TimeInForce, Trade, TradeHistoryRequest, Transaction,
     }
@@ -47,7 +47,7 @@ mod transport;
 
 pub mod client;
 
-/// The main struct of the openlimits-binance module
+/// The main struct of the binance module
 #[derive(Clone)]
 pub struct Binance {
     pub exchange_info: ExchangeInfo,
@@ -181,7 +181,7 @@ impl ExchangeMarketData for Binance {
 
 #[async_trait]
 impl ExchangeAccount for Binance {
-    async fn limit_buy(&self, req: &OpenLimitOrderRequest) -> Result<Order> {
+    async fn limit_buy(&self, req: &OrderRequest) -> Result<Order> {
         let pair = self.get_pair(&req.market_pair).await?.read()?;
         self.client
             .limit_buy(
@@ -194,7 +194,7 @@ impl ExchangeAccount for Binance {
             .await
             .map(Into::into)
     }
-    async fn limit_sell(&self, req: &OpenLimitOrderRequest) -> Result<Order> {
+    async fn limit_sell(&self, req: &OrderRequest) -> Result<Order> {
         let pair = self.get_pair(&req.market_pair).await?.read()?;
         self.client
             .limit_sell(
@@ -224,7 +224,7 @@ impl ExchangeAccount for Binance {
             let u64_id = req
                 .id
                 .parse::<u64>()
-                .expect("openlimits-binance order id did not parse as u64");
+                .expect("binance order id did not parse as u64");
             self.client
                 .cancel_order(pair.as_ref(), u64_id)
                 .await
@@ -284,7 +284,7 @@ impl ExchangeAccount for Binance {
         let u64_id = req
             .id
             .parse::<u64>()
-            .expect("openlimits-binance order id did not parse as u64");
+            .expect("binance order id did not parse as u64");
         self.client.get_order(&pair, u64_id).await.map(Into::into)
     }
 }
@@ -518,11 +518,11 @@ impl From<Paginator> for model::Paginator {
             from_id: paginator
                 .after
                 .as_ref()
-                .map(|s| s.parse().expect("openlimits-binance page id did not parse as u64")),
+                .map(|s| s.parse().expect("binance page id did not parse as u64")),
             // TODO: what is this, and why do we reuse "after"?
             order_id: paginator
                 .after
-                .map(|s| s.parse().expect("openlimits-binance order id did not parse as u64")),
+                .map(|s| s.parse().expect("binance order id did not parse as u64")),
             end_time: paginator.end_time,
             start_time: paginator.start_time,
             limit: paginator.limit,

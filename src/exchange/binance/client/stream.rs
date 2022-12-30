@@ -11,7 +11,7 @@ use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 use crate::errors::{LessError, Result};
 use crate::exchange::common::{
     Environment,
-    model::websocket::{OpenLimitsWebSocketMessage, Subscription, WebSocketResponse},
+    model::websocket::{LesWebSocketMessage, Subscription, WebSocketResponse},
     traits::stream::{ExchangeStream, Subscriptions},
 
 };
@@ -32,7 +32,7 @@ enum Either<L, R> {
     Right(R),
 }
 
-/// This struct is used for websocket communications with openlimits-binance openlimits-exchange
+/// This struct is used for websocket communications with binance exchange
 pub struct BinanceWebsocket {
     parameters: BinanceParameters,
     disconnection_senders: Mutex<Vec<UnboundedSender<()>>>,
@@ -194,13 +194,13 @@ impl TryFrom<BinanceWebsocketMessage> for WebSocketResponse<BinanceWebsocketMess
     fn try_from(value: BinanceWebsocketMessage) -> Result<Self> {
         match value {
             BinanceWebsocketMessage::Depth(orderbook) => Ok(WebSocketResponse::Generic(
-                OpenLimitsWebSocketMessage::OrderBook(orderbook.into()),
+                LesWebSocketMessage::OrderBook(orderbook.into()),
             )),
             BinanceWebsocketMessage::Trade(trade) => Ok(WebSocketResponse::Generic(
-                OpenLimitsWebSocketMessage::Trades(trade.into()),
+                LesWebSocketMessage::Trades(trade.into()),
             )),
             BinanceWebsocketMessage::Ping => {
-                Ok(WebSocketResponse::Generic(OpenLimitsWebSocketMessage::Ping))
+                Ok(WebSocketResponse::Generic(LesWebSocketMessage::Ping))
             }
             BinanceWebsocketMessage::Close => Err(LessError::SocketError()),
             _ => Ok(WebSocketResponse::Raw(value)),

@@ -4,7 +4,7 @@ use super::ExchangeFilter;
 use super::RateLimit;
 use super::Symbol;
 
-/// This struct represents informations about the openlimits-exchange
+/// This struct represents informations about the exchange
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ExchangeInformation {

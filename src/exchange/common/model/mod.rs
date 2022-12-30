@@ -1,4 +1,4 @@
-//! This module provides models that are used in the openlimits-exchange module
+//! This module provides models that are used in the exchange module
 
 pub mod request;
 pub mod ask_bid;

@@ -7,6 +7,6 @@ mod subscriptions;
 
 pub use callback_handle::CallbackHandle;
 pub use exchange_stream::ExchangeStream;
-pub use open_limit_stream::OpenLimitStream;
+pub use open_limit_stream::LesStream;
 pub use subscriptions::Subscriptions;
 pub use super::shared;

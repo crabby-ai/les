@@ -7,7 +7,7 @@ use super::ExchangeInfoRetrieval;
 use super::MarketPairHandle;
 use super::MarketPairInfo;
 
-/// This struct represents informations about the openlimits-exchange
+/// This struct represents informations about the exchange
 #[derive(Clone)]
 pub struct ExchangeInfo {
     pairs: Arc<RwLock<HashMap<String, Arc<RwLock<MarketPairInfo>>>>>,

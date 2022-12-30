@@ -1,8 +1,4 @@
-use super::websocket::{OpenLimitsWebSocketMessage, Subscription};
-// use crate::exchange::any::InitAnyExchange;
-// use crate::exchange::binance::{BinanceCredentials, BinanceParameters};
-// use crate::{CoinbaseCredentials, CoinbaseParameters};
-// use crate::exchange::nash::{NashCredentials, NashParameters};
+use super::websocket::{LesWebSocketMessage, Subscription};
 use crate::exchange::common::Environment;
 use super::{Interval, Paginator, TimeInForce};
 use pyo3::exceptions::PyException;
@@ -28,201 +24,6 @@ impl<'a> FromPyObject<'a> for TimeInForce {
         }
     }
 }
-
-// impl<'a> FromPyObject<'a> for InitAnyExchange {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         // unfortunately can't do the if let on the extract() since it needs type annotations
-//         if let Ok(nash) = ob.extract() {
-//             return Ok(InitAnyExchange::Nash(nash));
-//         }
-//         let maybe_binance: PyResult<BinanceParameters> = ob.extract();
-//         if let Ok(binance) = maybe_binance {
-//             return Ok(InitAnyExchange::Binance(binance));
-//         }
-//         let maybe_coinbase: PyResult<CoinbaseParameters> = ob.extract();
-//         if let Ok(coinbase) = maybe_coinbase {
-//             return Ok(InitAnyExchange::Coinbase(coinbase));
-//         }
-//         Err(PyException::new_err(
-//             "invalid openlimits-exchange initialization params",
-//         ))
-//     }
-// }
-
-// impl<'a> FromPyObject<'a> for BinanceCredentials {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("binance_credentials")?.downcast::<PyDict>()?;
-//         let api_key: String = py_dict
-//             .get_item("api_key")
-//             .ok_or(PyException::new_err(
-//                 "secret not included in openlimits-binance credentials",
-//             ))?
-//             .extract()?;
-//         let api_secret: String = py_dict
-//             .get_item("api_secret")
-//             .ok_or(PyException::new_err(
-//                 "session not included in openlimits-binance credentials",
-//             ))?
-//             .extract()?;
-//         Ok(BinanceCredentials {
-//             api_key,
-//             api_secret,
-//         })
-//     }
-// }
-//
-// impl<'a> FromPyObject<'a> for BinanceParameters {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("openlimits-binance")?.downcast::<PyDict>()?;
-//         let credentials: Option<BinanceCredentials> = py_dict
-//             .get_item("credentials")
-//             .ok_or(PyException::new_err(
-//                 "credentials not included in openlimits-binance params",
-//             ))?
-//             .extract()?;
-//         let sandbox: bool = py_dict
-//             .get_item("sandbox")
-//             .ok_or(PyException::new_err(
-//                 "session not included in openlimits-binance credentials",
-//             ))?
-//             .extract()?;
-//         Ok(BinanceParameters {
-//             sandbox,
-//             credentials,
-//         })
-//     }
-// }
-
-// impl<'a> FromPyObject<'a> for CoinbaseCredentials {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("coinbase_credentials")?.downcast::<PyDict>()?;
-//         let api_key: String = py_dict
-//             .get_item("api_key")
-//             .ok_or(PyException::new_err(
-//                 "secret not included in coinbase credentials",
-//             ))?
-//             .extract()?;
-//         let api_secret: String = py_dict
-//             .get_item("api_secret")
-//             .ok_or(PyException::new_err(
-//                 "session not included in coinbase credentials",
-//             ))?
-//             .extract()?;
-//         let passphrase: String = py_dict
-//             .get_item("passphrase")
-//             .ok_or(PyException::new_err(
-//                 "passphrase not included in coinbase credentials",
-//             ))?
-//             .extract()?;
-//         Ok(CoinbaseCredentials {
-//             api_key,
-//             api_secret,
-//             passphrase,
-//         })
-//     }
-// }
-//
-// impl<'a> FromPyObject<'a> for CoinbaseParameters {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("coinbase")?.downcast::<PyDict>()?;
-//         let credentials: Option<CoinbaseCredentials> = py_dict
-//             .get_item("credentials")
-//             .ok_or(PyException::new_err(
-//                 "credentials not included in coinbase params",
-//             ))?
-//             .extract()?;
-//         let sandbox: bool = py_dict
-//             .get_item("sandbox")
-//             .ok_or(PyException::new_err(
-//                 "session not included in coinbase credentials",
-//             ))?
-//             .extract()?;
-//         Ok(CoinbaseParameters {
-//             sandbox,
-//             credentials,
-//         })
-//     }
-// }
-
-// impl<'a> FromPyObject<'a> for NashCredentials {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("nash_credentials")?.downcast::<PyDict>()?;
-//         let secret: String = py_dict
-//             .get_item("secret")
-//             .ok_or(PyException::new_err(
-//                 "secret not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         let session: String = py_dict
-//             .get_item("session")
-//             .ok_or(PyException::new_err(
-//                 "session not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         Ok(NashCredentials { secret, session })
-//     }
-// }
-//
-// impl<'a> FromPyObject<'a> for NashParameters {
-//     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
-//         let py_dict = ob.get_item("nash")?.downcast::<PyDict>()?;
-//         let credentials: Option<NashCredentials> = py_dict
-//             .get_item("credentials")
-//             .ok_or(PyException::new_err(
-//                 "credentials not included in nash params",
-//             ))?
-//             .extract()?;
-//         let client_id: u64 = py_dict
-//             .get_item("client_id")
-//             .ok_or(PyException::new_err(
-//                 "session not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         let env_str: String = py_dict
-//             .get_item("environment")
-//             .ok_or(PyException::new_err(
-//                 "session not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         let affiliate_code: Option<String> = py_dict
-//             .get_item("affiliate_code")
-//             .ok_or(PyException::new_err(
-//                 "affiliate_code not included in nash params",
-//             ))?
-//             .extract()?;
-//         let dev_url: Option<String> = py_dict
-//             .get_item("dev_url")
-//             .and_then(|dev_url| dev_url.extract().ok());
-//         let environment = match (&env_str[..], dev_url) {
-//             ("sandbox", _) => Ok(Environment::Sandbox),
-//             ("production", _) => Ok(Environment::Production),
-//             ("dev", Some(dev_url)) => Ok(Environment::Dev(Box::leak(dev_url.to_string().into_boxed_str()))),
-//             _ => Err(PyException::new_err("not a valid nash environment")),
-//         }?;
-//         let timeout: u64 = py_dict
-//             .get_item("timeout")
-//             .ok_or(PyException::new_err(
-//                 "timeout not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         let timeout = Duration::from_millis(timeout);
-//         let sign_states_loop_interval: Option<u64> = py_dict
-//             .get_item("timeout")
-//             .ok_or(PyException::new_err(
-//                 "sign states loop interval not included in nash credentials",
-//             ))?
-//             .extract()?;
-//         let sign_states_loop_interval = sign_states_loop_interval.map(Duration::from_millis);
-//         Ok(NashParameters {
-//             affiliate_code,
-//             credentials,
-//             client_id,
-//             environment,
-//             timeout,
-//             sign_states_loop_interval,
-//         })
-//     }
-// }
 
 impl<'a> FromPyObject<'a> for Interval {
     fn extract(ob: &'a pyo3::PyAny) -> PyResult<Self> {
@@ -296,24 +97,24 @@ impl<'a> FromPyObject<'a> for Subscription {
     }
 }
 
-impl ToPyObject for OpenLimitsWebSocketMessage {
+impl ToPyObject for LesWebSocketMessage {
     fn to_object(&self, py: Python) -> PyObject {
         match self {
-            OpenLimitsWebSocketMessage::Ping => {
+            LesWebSocketMessage::Ping => {
                 // empty dict to represent null
                 let dict = PyDict::new(py);
                 dict.set_item("ping", PyDict::new(py))
                     .expect("Couldn't set ping.");
                 dict.into()
             }
-            OpenLimitsWebSocketMessage::OrderBook(resp) => resp.to_object(py),
-            OpenLimitsWebSocketMessage::OrderBookDiff(resp) => resp.to_object(py),
-            OpenLimitsWebSocketMessage::Trades(resp) => resp.to_object(py),
+            LesWebSocketMessage::OrderBook(resp) => resp.to_object(py),
+            LesWebSocketMessage::OrderBookDiff(resp) => resp.to_object(py),
+            LesWebSocketMessage::Trades(resp) => resp.to_object(py),
         }
     }
 }
 
-impl IntoPy<PyObject> for OpenLimitsWebSocketMessage {
+impl IntoPy<PyObject> for LesWebSocketMessage {
     fn into_py(self, py: Python) -> PyObject {
         self.to_object(py)
     }

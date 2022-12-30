@@ -6,7 +6,7 @@ authors = ["Vasanthkumar Kalaiselvan <itsparser@gmail.com>"]
 description = "less is the crate provide binding for crypto network"
 license = "MIT"
 repository = "https://github.com/crabby-ai/les"
-keywords = ["exchange", "openlimits", "api", "cryptocurrency"]
+keywords = ["cryptocurrency", "api", "trading"]
 exclude = [
     "tests/*",
     ".github/*"

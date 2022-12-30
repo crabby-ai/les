@@ -1,4 +1,4 @@
-//! This module provides models that are used in the openlimits-binance module
+//! This module provides models that are used in the binance module
 
 pub const ORDER_TYPE_LIMIT: &str = "LIMIT";
 pub const ORDER_TYPE_LIMIT_MAKER: &str = "LIMIT_MAKER";

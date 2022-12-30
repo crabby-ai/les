@@ -23,7 +23,7 @@ pub use get_historic_trades_request::GetHistoricTradesRequest;
 pub use get_order_history_request::GetOrderHistoryRequest;
 pub use get_order_request::GetOrderRequest;
 pub use get_price_ticker_request::GetPriceTickerRequest;
-pub use open_limit_order_request::OpenLimitOrderRequest;
+pub use open_limit_order_request::OrderRequest;
 pub use open_market_order_request::OpenMarketOrderRequest;
 pub use order_book_request::OrderBookRequest;
 pub use order_book_response::OrderBookResponse;

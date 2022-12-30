@@ -4,7 +4,7 @@ use crate::exchange::common::{
     model::{
         Balance, CancelAllOrdersRequest, CancelOrderRequest,
         GetOrderHistoryRequest, GetOrderRequest,
-        OpenLimitOrderRequest, OpenMarketOrderRequest, Order,
+        OrderRequest, OpenMarketOrderRequest, Order,
         OrderCanceled, OrderFilter, Paginator, Trade, TradeHistoryRequest
     },
 };
@@ -14,8 +14,8 @@ use super::super::Result;
 /// ExchangeAccount will have all the Exchange Account Information
 #[async_trait]
 pub trait ExchangeAccount {
-    async fn limit_buy(&self, req: &OpenLimitOrderRequest) -> Result<Order>;
-    async fn limit_sell(&self, req: &OpenLimitOrderRequest) -> Result<Order>;
+    async fn limit_buy(&self, req: &OrderRequest) -> Result<Order>;
+    async fn limit_sell(&self, req: &OrderRequest) -> Result<Order>;
     async fn market_buy(&self, req: &OpenMarketOrderRequest) -> Result<Order>;
     async fn market_sell(&self, req: &OpenMarketOrderRequest) -> Result<Order>;
     async fn cancel_order(&self, req: &CancelOrderRequest) -> Result<OrderCanceled>;

@@ -3,7 +3,7 @@ use std::env;
 use les::{
     prelude::*,
     model::{
-        CancelAllOrdersRequest, CancelOrderRequest, GetOrderHistoryRequest, OpenLimitOrderRequest,
+        CancelAllOrdersRequest, CancelOrderRequest, GetOrderHistoryRequest, OrderRequest,
         OpenMarketOrderRequest, TimeInForce, TradeHistoryRequest, GetPriceTickerRequest
     },
 };
@@ -39,10 +39,10 @@ async fn init() -> Binance {
 async fn trade_history() {
     let exchange = init().await;
     let page = Paginator {
-        start_time: Some(),
-        end_time: None,
-        limit: Some(100),
-        after: None,
+        // start_time: Some(),
+        // end_time: None,
+        // limit: Some(100),
+        // after: None,
         ..Default::default()
     };
     let params = TradeHistoryReq {
@@ -59,7 +59,7 @@ async fn trade_history() {
         paginator: None,
     };
     let resp = b.get_klines(&p).await.expect("Couldn't trade history.");
-    println!("{:?}", resp);
+    eprintln!("{:#?}", resp);
 
     let resp = b.trade_history(&params).await.expect("Couldn't trade history.");
     println!("{:?}", resp);

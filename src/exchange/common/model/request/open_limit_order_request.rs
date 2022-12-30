@@ -6,7 +6,7 @@ use super::{TimeInForce, MarketPair};
 
 /// This struct represents an open limit order
 #[derive(Serialize, Deserialize, Clone, Constructor, Debug, PartialEq)]
-pub struct OpenLimitOrderRequest {
+pub struct OrderRequest {
     pub client_order_id: Option<String>,
     pub market_pair: MarketPair,
     pub size: Decimal,
