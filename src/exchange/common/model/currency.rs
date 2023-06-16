@@ -26,3 +26,12 @@ impl fmt::Display for Currency {
         }
     }
 }
+
+// impl Copy for Currency {
+//     fn clone(&self) -> Currency {
+//         match self {
+//             Self::Other(s) => Currency::Other(s.clone()),
+//             _ => self.clone()
+//         }
+//     }
+// }
