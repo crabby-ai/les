@@ -1,6 +1,7 @@
 use std::ops::Range;
 
 use serde::{Deserialize, Serialize};
+use crate::exchange::binance::model::websocket::CandlestickMessage;
 
 use super::{MarketPair, OrderBookResponse, OrderStatus, OrderType, Side, Trade};
 
@@ -20,6 +21,8 @@ pub enum Subscription {
     // Ticker(MarketPair),           // symbol
     OrderBookUpdates(MarketPair), // symbol
     Trades(MarketPair),           // symbol
+    /// Candlestick(MarketPair, Interval)
+    Candlestick(MarketPair, String),      // symbol
     // AccountTrades(MarketPair),    // symbol
     // AccountBalance(MarketPair),   // symbol
     // AccountOrders(AccountOrders),

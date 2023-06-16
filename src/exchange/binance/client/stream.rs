@@ -183,7 +183,8 @@ impl From<Subscription> for BinanceSubscription {
     fn from(subscription: Subscription) -> Self {
         match subscription {
             Subscription::OrderBookUpdates(symbol) => BinanceSubscription::Depth(MarketPair::from(symbol).0, None),
-            Subscription::Trades(symbol) => BinanceSubscription::Trade(MarketPair::from(symbol).0)
+            Subscription::Trades(symbol) => BinanceSubscription::Trade(MarketPair::from(symbol).0),
+            Subscription::Candlestick(symbol, interval) => BinanceSubscription::Candlestick(format!("{}{}", symbol.0.to_string(), symbol.1.to_string()), interval),
         }
     }
 }
